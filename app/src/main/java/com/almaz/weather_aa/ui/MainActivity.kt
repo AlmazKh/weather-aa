@@ -1,7 +1,8 @@
-package com.almaz.weather_aa
+package com.almaz.weather_aa.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.almaz.weather_aa.R
 
 class MainActivity : AppCompatActivity() {
 
