@@ -3,7 +3,7 @@ package com.almaz.weather_aa.di
 import android.app.Application
 import org.kodein.di.Kodein
 
-class Kodein() {
+class Kodein {
 
     lateinit var di: Kodein
 
@@ -11,6 +11,7 @@ class Kodein() {
         di = Kodein {
             import(appModule(app))
             import(viewModelModule())
+            import(netModule())
         }
         return di
     }
