@@ -25,9 +25,7 @@ class MainActivity : BaseActivity(), KodeinAware {
     override val layoutId: Int
         get() = R.layout.activity_main
 
-    override fun setupView() {
-        TODO("Not yet implemented")
-    }
+    override fun setupView() {}
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
