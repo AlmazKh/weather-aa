@@ -10,6 +10,7 @@ import com.almaz.weather_aa.ui.base.BaseFragment
 import org.kodein.di.generic.instance
 
 class WeatherFragment : BaseFragment() {
+
     private val viewModeFactory: ViewModelProvider.Factory by instance()
     private val viewModel: WeatherViewModel by lazy {
         ViewModelProvider(this, this.viewModeFactory)

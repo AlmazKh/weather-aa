@@ -12,6 +12,8 @@ class Kodein {
             import(appModule(app))
             import(viewModelModule())
             import(netModule())
+            import(repositoryModule())
+            import(interactorModule())
         }
         return di
     }
