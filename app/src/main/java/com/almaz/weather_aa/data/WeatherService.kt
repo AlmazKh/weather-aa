@@ -24,10 +24,10 @@ interface WeatherService {
         @Query("key") apiKey: String
     ): Single<DailyWeatherResponse>
 
-    @GET("forecast/hourly?lat={lat}&lon={lon}")
+    @GET("forecast/hourly")
     fun getHourlyWeather(
-        @Path("lat") lat: Double,
-        @Path("lon") lon: Double,
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
         @Query("key") apiKey: String
     ): Single<HourlyWeatherResponse>
 }
