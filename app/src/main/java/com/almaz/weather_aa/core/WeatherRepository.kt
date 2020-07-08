@@ -6,6 +6,7 @@ import com.almaz.weather_aa.core.model.HourlyWeatherResponse
 import io.reactivex.Single
 
 interface WeatherRepository {
+
     fun getCurrentWeather(
         lat: Double,
         lon: Double,

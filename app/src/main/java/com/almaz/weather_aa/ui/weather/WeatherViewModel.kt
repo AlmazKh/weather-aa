@@ -12,9 +12,13 @@ class WeatherViewModel(
 ) : BaseViewModel() {
     val hourlyWeatherLiveData = MutableLiveData<Response<List<HourlyWeather>>>()
 
-    fun getHourlyWeather() {
+    fun getHourlyWeather(
+        lat: Double,
+        lon: Double,
+        apiKey: String
+    ) {
         disposables.add(
-            weatherInteractor.getHourlyWeather()
+            weatherInteractor.getHourlyWeather(lat, lon, apiKey)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate{
                     showLoadingLiveData.value = false

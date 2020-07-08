@@ -8,6 +8,6 @@ import org.kodein.di.generic.singleton
 
 fun interactorModule() = Kodein.Module("interactorModule") {
     bind<WeatherInteractor>() with singleton {
-        WeatherInteractor(weatherRepository = instance())
+        WeatherInteractor(instance())
     }
 }

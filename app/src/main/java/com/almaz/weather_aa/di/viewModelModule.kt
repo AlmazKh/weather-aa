@@ -1,10 +1,10 @@
 package com.almaz.weather_aa.di
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.weather_aa.ui.main.MainViewModel
 import com.almaz.weather_aa.ui.weather.WeatherViewModel
 import com.almaz.weather_aa.utils.ViewModelFactory
+import com.almaz.weather_aa.utils.bindViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -19,10 +19,10 @@ fun viewModelModule() = Kodein.Module(name = "viewModelModule") {
         )
     }
 
-    bind<ViewModel>(tag = MainViewModel::class.java.simpleName) with provider {
+    bind<MainViewModel>() with provider {
         MainViewModel()
     }
-    bind<ViewModel>(tag = WeatherViewModel::class.java.simpleName) with provider {
-        WeatherViewModel(weatherInteractor = instance())
+    bindViewModel<WeatherViewModel>() with provider {
+        WeatherViewModel(instance())
     }
 }
