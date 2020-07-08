@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_weather.*
@@ -37,7 +38,7 @@ class WeatherFragment : BaseFragment() {
         }
         initAdapter()
 
-        viewModel.getHourlyWeather()
+        viewModel.getHourlyWeather(35.7721, -78.63861, BuildConfig.API_KEY)
 
         observeHourlyWeatherLiveData()
     }

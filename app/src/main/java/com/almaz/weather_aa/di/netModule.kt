@@ -17,9 +17,7 @@ fun netModule() = Kodein.Module("netModule") {
     bind<WeatherService>() with singleton { instance<Retrofit>().create(WeatherService::class.java) }
 }
 
-private fun provideRetrofit(
-    baseUrl: String
-): Retrofit = Retrofit.Builder()
+private fun provideRetrofit(baseUrl: String): Retrofit = Retrofit.Builder()
     .baseUrl(baseUrl)
     .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
