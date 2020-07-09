@@ -34,7 +34,26 @@ class WeatherFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        rv_daily_details.apply {
+            layoutManager = LinearLayoutManager(rootView.context, LinearLayoutManager.HORIZONTAL, false)
+        }
         initAdapter()
+
+//        val dw = container_hourly_weather.layoutParams as CoordinatorLayout.LayoutParams
+//        dw.behavior = HourlyWeatherBehavior()
+        // TODO: fix with custom behavior
+        rv_daily_weather.viewTreeObserver
+            .addOnScrollChangedListener {
+                if (rv_daily_weather != null) {
+                    if (rv_daily_weather.getChildAt(0)
+                            .bottom <= rv_daily_weather.height + rv_daily_weather.scrollY
+                    ) {
+                        container_hourly_weather.visibility = View.GONE
+                    } else {
+                        container_hourly_weather.visibility = View.VISIBLE
+                    }
+                }
+            }
 
         //TODO get lat lon
         viewModel.getHourlyWeather(35.7721, -78.63861, BuildConfig.API_KEY)
