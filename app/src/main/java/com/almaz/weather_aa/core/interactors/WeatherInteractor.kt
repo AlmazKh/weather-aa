@@ -1,15 +1,20 @@
 package com.almaz.weather_aa.core.interactors
 
+import android.annotation.SuppressLint
+import android.location.Location
 import com.almaz.weather_aa.core.WeatherRepository
 import com.almaz.weather_aa.core.model.CurrentWeatherResponse
 import com.almaz.weather_aa.core.model.DailyWeather
 import com.almaz.weather_aa.core.model.DailyWeatherResponse
 import com.almaz.weather_aa.core.model.HourlyWeather
+import com.google.android.gms.location.FusedLocationProviderClient
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class WeatherInteractor(
-    private val weatherRepository: WeatherRepository
+    private val weatherRepository: WeatherRepository,
+    private val fusedLocationClient: FusedLocationProviderClient
 ) {
 
     // TODO: fix getting data. Return weather for every minute
@@ -40,4 +45,16 @@ class WeatherInteractor(
         return weatherRepository.getDailyWeather(lat, lon, apiKey)
             .map { it.data }
     }
+
+    @SuppressLint("MissingPermission")
+    fun getGeoPosition(): Single<Location> =
+        Single.create<Location> { emitter ->
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                emitter.onSuccess(it)
+            }.addOnFailureListener {
+                emitter.onError(it)
+            }
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 }

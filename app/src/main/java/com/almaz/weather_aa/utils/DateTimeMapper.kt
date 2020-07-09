@@ -1,5 +1,6 @@
 package com.almaz.weather_aa.utils
 
+import android.provider.Settings.Global.getString
 import com.almaz.weather_aa.R
 import org.joda.time.DateTime
 import java.lang.StringBuilder
@@ -10,6 +11,11 @@ import java.util.regex.Pattern
 class DateTimeMapper {
 
     companion object {
+        private val today = "Сегодня"
+        private val tomorrow = "Завтра"
+        private val pattern_month = "MMMM"
+        private val pattern_week = "EEEE"
+
         private val locale = Locale("ru")
         fun mapToDayOfWeek(date: String): String {
             val dateParsed = parseDate(date)
@@ -20,13 +26,13 @@ class DateTimeMapper {
             val dayOfWeek = StringBuilder()
             when (dateTime.dayOfMonth) {
                 DateTime.now().dayOfMonth -> {
-                    dayOfWeek.append("Сегодня")
+                    dayOfWeek.append(today)
                 }
                 DateTime.now().plusDays(1).dayOfMonth -> {
-                    dayOfWeek.append("Завтра")
+                    dayOfWeek.append(tomorrow)
                 }
                 else -> {
-                    dayOfWeek.append(getDateRus(year, month - 1, day, "EEEE"))
+                    dayOfWeek.append(getDateRus(year, month - 1, day, pattern_week))
                 }
             }
             return dayOfWeek.toString()
@@ -41,7 +47,7 @@ class DateTimeMapper {
             val dayOfMonth = StringBuilder()
             dayOfMonth.append(day)
             dayOfMonth.append(" ")
-            dayOfMonth.append(getDateRus(year, month - 1, day, "MMMM"))
+            dayOfMonth.append(getDateRus(year, month - 1, day, pattern_month))
             return dayOfMonth.toString()
         }
 
