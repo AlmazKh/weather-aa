@@ -2,6 +2,7 @@ package com.almaz.weather_aa.core.interactors
 
 import com.almaz.weather_aa.core.WeatherRepository
 import com.almaz.weather_aa.core.model.CurrentWeatherResponse
+import com.almaz.weather_aa.core.model.DailyWeather
 import com.almaz.weather_aa.core.model.DailyWeatherResponse
 import com.almaz.weather_aa.core.model.HourlyWeather
 import io.reactivex.Single
@@ -35,7 +36,8 @@ class WeatherInteractor(
         lat: Double,
         lon: Double,
         apiKey: String
-    ): Single<DailyWeatherResponse> {
+    ): Single<List<DailyWeather>> {
         return weatherRepository.getDailyWeather(lat, lon, apiKey)
+            .map { it.data }
     }
 }

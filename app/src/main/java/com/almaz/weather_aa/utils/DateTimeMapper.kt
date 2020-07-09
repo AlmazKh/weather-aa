@@ -10,6 +10,7 @@ import java.util.regex.Pattern
 class DateTimeMapper {
 
     companion object {
+        private val locale = Locale("ru")
         fun mapToDayOfWeek(date: String): String {
             val dateParsed = parseDate(date)
             val year = getYear(dateParsed)
@@ -25,7 +26,7 @@ class DateTimeMapper {
                     dayOfWeek.append("Завтра")
                 }
                 else -> {
-                    dayOfWeek.append(getDateRus(year, month, day, "EEEE"))
+                    dayOfWeek.append(getDateRus(year, month - 1, day, "EEEE"))
                 }
             }
             return dayOfWeek.toString()
@@ -40,16 +41,17 @@ class DateTimeMapper {
             val dayOfMonth = StringBuilder()
             dayOfMonth.append(day)
             dayOfMonth.append(" ")
-            dayOfMonth.append(getDateRus(year, month, day, "MMMM"))
+            dayOfMonth.append(getDateRus(year, month - 1, day, "MMMM"))
             return dayOfMonth.toString()
         }
 
         private fun getDateRus(year: Int, month: Int, day: Int, pattern: String): String {
-            return SimpleDateFormat(pattern, Locale("ru")).format(
-                Date(
-                    year, month, day
-                )
+            val calendar = Calendar.getInstance(locale)
+            calendar.set(year, month, day)
+            val dateRus = SimpleDateFormat(pattern, locale).format(
+                calendar.time
             )
+            return dateRus.substring(0, 1).toUpperCase(locale) + dateRus.substring(1)
         }
 
         private fun parseDate(date: String) = date.split(Pattern.compile("-"), 0)

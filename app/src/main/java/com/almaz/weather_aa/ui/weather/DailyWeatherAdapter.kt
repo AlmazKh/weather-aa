@@ -13,7 +13,6 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_weather_daily.view.*
 
 class DailyWeatherAdapter(
-    private val weatherData: List<DailyWeather>
 ) : ListAdapter<DailyWeather, DailyWeatherAdapter.DailyWeatherHolder>(DailyWeatherDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): DailyWeatherHolder {
@@ -22,14 +21,8 @@ class DailyWeatherAdapter(
         return DailyWeatherHolder(view)
     }
 
-    override fun getItemCount(): Int = weatherData.size
-
     override fun onBindViewHolder(holder: DailyWeatherHolder, position: Int) {
-        holder.bind(weatherData[position])
-    }
-
-    override fun submitList(list: List<DailyWeather>?) {
-        super.submitList(if (list != null) ArrayList(list) else null)
+        holder.bind(getItem(position))
     }
 
     class DailyWeatherDiffCallback : DiffUtil.ItemCallback<DailyWeather>() {

@@ -10,17 +10,17 @@ import retrofit2.http.Query
 
 interface WeatherService {
 
-    @GET("current?lat={lat}&lon={lon}")
+    @GET("current")
     fun getCurrentWeather(
-        @Path("lat") lat: Double,
-        @Path("lon") lon: Double,
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
         @Query("key") apiKey: String
     ): Single<CurrentWeatherResponse>
 
-    @GET("forecast/daily?lat={lat}&lon={lon}")
+    @GET("forecast/daily")
     fun getDailyWeather(
-        @Path("lat") lat: Double,
-        @Path("lon") lon: Double,
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
         @Query("key") apiKey: String
     ): Single<DailyWeatherResponse>
 
