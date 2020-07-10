@@ -1,8 +1,6 @@
 package com.almaz.weather_aa.utils
 
-import com.almaz.weather_aa.R
 import org.joda.time.DateTime
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -43,6 +41,14 @@ class DateTimeMapper {
             dayOfMonth.append(" ")
             dayOfMonth.append(getDateRus(year, month - 1, day, "MMMM"))
             return dayOfMonth.toString()
+        }
+
+        fun getDegreesInCorrectForm(temp: Double): String {
+            return if (temp > 0) {
+                "+${temp.toInt()}°"
+            } else {
+                "${temp.toInt()}°"
+            }
         }
 
         private fun getDateRus(year: Int, month: Int, day: Int, pattern: String): String {

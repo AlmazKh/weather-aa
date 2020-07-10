@@ -40,6 +40,11 @@ class WeatherFragment : BaseFragment() {
         }
         initAdapter()
 
+        btn_locations.setOnClickListener {
+            rootActivity.navController.navigate(
+                R.id.action_weather_fragment_to_locations_fragment
+            )
+        }
 //        val dw = container_hourly_weather.layoutParams as CoordinatorLayout.LayoutParams
 //        dw.behavior = HourlyWeatherBehavior()
         // TODO: fix with custom behavior
