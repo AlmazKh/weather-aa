@@ -87,7 +87,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_humidity"
+                    android:id="@+id/tv_pressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_low_normal_12"
@@ -100,7 +100,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_wind" />
 
                 <TextView
-                    android:id="@+id/tv_pressure"
+                    android:id="@+id/tv_humidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_low_normal_12"
@@ -110,38 +110,26 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/font_small_12"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_humidity" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_pressure" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_daily_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_huge_32"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_pressure"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_humidity"
                     app:layout_constraintStart_toEndOf="@id/tv_wind"
                     app:layout_constraintTop_toTopOf="@id/tv_wind" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </HorizontalScrollView>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!--<androidx.core.widget.NestedScrollView
-        android:id="@+id/test_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="8dp"
-            android:text="some text asdas asda sd asd asdasdas dasd"
-            android:textSize="100sp" />
-    </androidx.core.widget.NestedScrollView>-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_daily_weather"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|center"
-        tools:listitem="@layout/item_weather_daily" />
+        tools:listitem="@layout/item_weather_daily"
+        app:layout_behavior = "@string/appbar_scrolling_view_behavior"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
