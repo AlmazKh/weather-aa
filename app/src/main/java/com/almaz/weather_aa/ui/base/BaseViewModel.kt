@@ -7,6 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
 open class BaseViewModel : ViewModel() {
     protected val disposables = CompositeDisposable()
     val showLoadingLiveData = MutableLiveData<Boolean>()
+    val gpsState = MutableLiveData<Boolean>()
 
     override fun onCleared() {
         super.onCleared()

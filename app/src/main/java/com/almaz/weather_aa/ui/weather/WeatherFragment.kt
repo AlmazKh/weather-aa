@@ -1,15 +1,15 @@
 package com.almaz.weather_aa.ui.weather
 
+//import com.almaz.weather_aa.utils.GpsUtils
+//import com.google.android.gms.location.*
+
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,8 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.ui.base.BaseFragment
-//import com.almaz.weather_aa.utils.GpsUtils
-//import com.google.android.gms.location.*
+import com.almaz.weather_aa.utils.GPSUtils
 import kotlinx.android.synthetic.main.fragment_weather.*
 import org.kodein.di.generic.instance
 
@@ -49,7 +48,15 @@ class WeatherFragment : BaseFragment() {
                 LinearLayoutManager(rootView.context, LinearLayoutManager.HORIZONTAL, false)
         }
         initAdapter()
+
+        GPSUtils(rootActivity).turnGPSOn(object : GPSUtils.OnGpsListener {
+            override fun gpsStatus(isGPSEnable: Boolean) {
+                // turn on GPS
+                rootActivity.mainViewModel.gpsState.postValue(isGPSEnable)
+            }
+        })
         checkLocationPermissions()
+
 //        val dw = container_hourly_weather.layoutParams as CoordinatorLayout.LayoutParams
 //        dw.behavior = HourlyWeatherBehavior()
         // TODO: fix with custom behavior
@@ -66,6 +73,7 @@ class WeatherFragment : BaseFragment() {
 //                }
 //            }
 
+        observeGps()
         observeLoading()
         observeDailyWeather()
         observeHourlyWeatherLiveData()
@@ -124,9 +132,7 @@ class WeatherFragment : BaseFragment() {
     }
 
     private fun onLocationPermissionsGranted() {
-        viewModel.getLocation(BuildConfig.API_KEY)
-//        viewModel.getHourlyWeather(35.7721, -78.63861, BuildConfig.API_KEY)
-//        viewModel.getDailyWeather(35.7721, -78.63861, BuildConfig.API_KEY)
+//        viewModel.getLocation(BuildConfig.API_KEY)
     }
 
     private fun onLocationPermissionsDenied() {
@@ -164,6 +170,11 @@ class WeatherFragment : BaseFragment() {
                 if (isLoading) showLoading()
                 else hideLoading()
             }
+        })
+
+    private fun observeGps() =
+        rootActivity.mainViewModel.gpsState.observe(viewLifecycleOwner, Observer { gpsEnable ->
+            if (gpsEnable) viewModel.getLocation(BuildConfig.API_KEY)
         })
 
     companion object {
