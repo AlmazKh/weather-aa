@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.ui.base.BaseFragment
-import com.almaz.weather_aa.utils.GpsUtils
-import com.google.android.gms.location.*
+//import com.almaz.weather_aa.utils.GpsUtils
+//import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_weather.*
 import org.kodein.di.generic.instance
 
@@ -66,9 +66,7 @@ class WeatherFragment : BaseFragment() {
 //                }
 //            }
 
-//        viewModel.getHourlyWeather(35.7721, -78.63861, BuildConfig.API_KEY)
-//        viewModel.getDailyWeather(35.7721, -78.63861, BuildConfig.API_KEY)
-
+        observeLoading()
         observeDailyWeather()
         observeHourlyWeatherLiveData()
     }
@@ -157,6 +155,14 @@ class WeatherFragment : BaseFragment() {
                 if (response.error != null) {
                     showSnackbar(getString(R.string.snackbar_error_message))
                 }
+            }
+        })
+
+    private fun observeLoading() =
+        viewModel.showLoadingLiveData.observe(viewLifecycleOwner, Observer {
+            it?.let { isLoading ->
+                if (isLoading) showLoading()
+                else hideLoading()
             }
         })
 

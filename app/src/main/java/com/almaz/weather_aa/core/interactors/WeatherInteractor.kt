@@ -50,7 +50,7 @@ class WeatherInteractor(
     fun getGeoPosition(): Single<Location> =
         Single.create<Location> { emitter ->
             fusedLocationClient.lastLocation.addOnSuccessListener {
-                emitter.onSuccess(it)
+                if (it != null) emitter.onSuccess(it)
             }.addOnFailureListener {
                 emitter.onError(it)
             }
