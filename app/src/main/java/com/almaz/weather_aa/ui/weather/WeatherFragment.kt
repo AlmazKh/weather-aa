@@ -1,5 +1,10 @@
 package com.almaz.weather_aa.ui.weather
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +17,11 @@ import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.HourlyWeather
 import com.almaz.weather_aa.ui.base.BaseFragment
+//import com.almaz.weather_aa.utils.GpsUtils
+//import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_weather.*
 import org.kodein.di.generic.instance
+
 
 class WeatherFragment : BaseFragment() {
 
@@ -36,7 +44,8 @@ class WeatherFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv_daily_details.apply {
-            layoutManager = LinearLayoutManager(rootView.context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(rootView.context, LinearLayoutManager.HORIZONTAL, false)
         }
         initAdapter()
 
@@ -56,10 +65,7 @@ class WeatherFragment : BaseFragment() {
                 }
             }
 
-        //TODO get lat lon
-        viewModel.getHourlyWeather(55.830433, 49.066082, BuildConfig.API_KEY)
-        viewModel.getDailyWeather(35.7721, -78.63861, BuildConfig.API_KEY)
-
+        observeLoading()
         observeDailyWeather()
         observeHourlyWeatherLiveData()
     }
@@ -74,7 +80,12 @@ class WeatherFragment : BaseFragment() {
         rv_daily_details.adapter = hourlyWeatherAdapter
         dailyWeatherAdapter = DailyWeatherAdapter()
         rv_daily_weather.adapter = dailyWeatherAdapter
-        rv_daily_weather.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+        rv_daily_weather.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                LinearLayoutManager.VERTICAL
+            )
+        )
     }
 
     private fun observeHourlyWeatherLiveData() =
@@ -103,9 +114,22 @@ class WeatherFragment : BaseFragment() {
             }
         })
 
+    private fun observeLoading() =
+        viewModel.showLoadingLiveData.observe(viewLifecycleOwner, Observer {
+            it?.let { isLoading ->
+                if (isLoading) showLoading()
+                else hideLoading()
+            }
+        })
+
     private fun setUpExtraWeatherOptions(data: List<HourlyWeather>) {
         tv_wind.text = "${(data[0].windSpd * 3.6).toInt()} km/h, ${data[0].windCdir}"
         tv_pressure.text = "${data[0].pres.toInt()} hPa"
         tv_humidity.text = "${data[0].rh.toInt()} %"
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
+        private const val PERMISSION_REQUEST_CODE = 324
     }
 }

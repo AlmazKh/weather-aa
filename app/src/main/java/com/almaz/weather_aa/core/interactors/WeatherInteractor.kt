@@ -1,13 +1,16 @@
 package com.almaz.weather_aa.core.interactors
 
+import android.annotation.SuppressLint
+import android.location.Location
 import com.almaz.weather_aa.core.WeatherRepository
 import com.almaz.weather_aa.core.model.CurrentWeatherResponse
 import com.almaz.weather_aa.core.model.DailyWeather
 import com.almaz.weather_aa.core.model.DailyWeatherResponse
 import com.almaz.weather_aa.core.model.HourlyWeather
+import com.google.android.gms.location.FusedLocationProviderClient
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.joda.time.DateTime
 
 class WeatherInteractor(
     private val weatherRepository: WeatherRepository
@@ -21,9 +24,7 @@ class WeatherInteractor(
     ): Single<List<HourlyWeather>> =
         weatherRepository.getHourlyWeather(lat, lon, apiKey)
             .map {
-                it.data.filter { weather ->
-                    DateTime(weather.timestampLocal).dayOfMonth() == DateTime.now().dayOfMonth()
-                }
+                it.data.take(10)
             }
             .subscribeOn(Schedulers.io())
 

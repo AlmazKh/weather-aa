@@ -124,12 +124,33 @@
         </HorizontalScrollView>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!--<androidx.core.widget.NestedScrollView
+        android:id="@+id/test_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="8dp"
+            android:text="some text asdas asda sd asd asdasdas dasd"
+            android:textSize="100sp" />
+    </androidx.core.widget.NestedScrollView>-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_daily_weather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|center"
-        tools:listitem="@layout/item_weather_daily"
-        app:layout_behavior = "@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior = "@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/item_weather_daily" />
+
+    <ProgressBar
+        android:id="@+id/progress_weather_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:layout_gravity="center"
+        app:layout_anchorGravity="center"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
