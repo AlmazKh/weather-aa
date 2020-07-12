@@ -39,6 +39,8 @@ class MainActivity : BaseActivity(), KodeinAware {
             if (requestCode == AppConstants.GPS_REQUEST) {
                 mainViewModel.gpsState.postValue(true)
             }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+                mainViewModel.gpsState.postValue(false)
         }
     }
 }

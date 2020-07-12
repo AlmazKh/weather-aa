@@ -16,9 +16,10 @@ class GPSUtils(private val context: Context) {
     private val mLocationSettingsRequest: LocationSettingsRequest
     private val locationManager: LocationManager
     private val locationRequest: LocationRequest
+    private val settingsError = "Необходимо определить местоположение в настройках телефона"
+    private val pendingIntentError = "PendingIntent не может обработать запрос"
 
-    // method for turn on GPS
-    fun turnGPSOn(onGpsListener: OnGpsListener?) {
+    fun checkIsGpsOn(onGpsListener: OnGpsListener?) {
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             onGpsListener?.gpsStatus(true)
         } else {
@@ -32,11 +33,9 @@ class GPSUtils(private val context: Context) {
                 .addOnFailureListener(
                     context
                 ) { e ->
-                    val statusCode = (e as ApiException).statusCode
-                    when (statusCode) {
+                    when ((e as ApiException).statusCode) {
                         LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
-                            // Show the dialog by calling startResolutionForResult(), and check the
-                            // result in onActivityResult().
+                            // Show the dialog
                             val rae = e as ResolvableApiException
                             rae.startResolutionForResult(
                                 context,
@@ -45,13 +44,11 @@ class GPSUtils(private val context: Context) {
                         } catch (sie: SendIntentException) {
                             Log.i(
                                 ContentValues.TAG,
-                                "PendingIntent unable to execute request."
+                                pendingIntentError
                             )
                         }
                         LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
-                            val errorMessage =
-                                "Location settings are inadequate, and cannot be " +
-                                        "fixed here. Fix in Settings."
+                            val errorMessage = settingsError
                             Log.e(ContentValues.TAG, errorMessage)
                             Toast.makeText(
                                 context,

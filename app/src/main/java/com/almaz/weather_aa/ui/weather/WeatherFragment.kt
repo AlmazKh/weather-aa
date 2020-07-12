@@ -49,12 +49,6 @@ class WeatherFragment : BaseFragment() {
         }
         initAdapter()
 
-        GPSUtils(rootActivity).turnGPSOn(object : GPSUtils.OnGpsListener {
-            override fun gpsStatus(isGPSEnable: Boolean) {
-                // turn on GPS
-                rootActivity.mainViewModel.gpsState.postValue(isGPSEnable)
-            }
-        })
         checkLocationPermissions()
 
 //        val dw = container_hourly_weather.layoutParams as CoordinatorLayout.LayoutParams
@@ -132,11 +126,15 @@ class WeatherFragment : BaseFragment() {
     }
 
     private fun onLocationPermissionsGranted() {
-//        viewModel.getLocation(BuildConfig.API_KEY)
+        GPSUtils(rootActivity).checkIsGpsOn(object : GPSUtils.OnGpsListener {
+            override fun gpsStatus(isGPSEnable: Boolean) {
+                if (isGPSEnable) rootActivity.mainViewModel.gpsState.postValue(true)
+            }
+        })
     }
 
     private fun onLocationPermissionsDenied() {
-        showSnackbar(getString(R.string.permission_denied))
+        showSnackbar(getString(R.string.location_prompt_denied))
     }
 
     private fun observeHourlyWeatherLiveData() =
@@ -175,6 +173,10 @@ class WeatherFragment : BaseFragment() {
     private fun observeGps() =
         rootActivity.mainViewModel.gpsState.observe(viewLifecycleOwner, Observer { gpsEnable ->
             if (gpsEnable) viewModel.getLocation(BuildConfig.API_KEY)
+            else {
+                hideLoading()
+                showSnackbar(getString(R.string.location_prompt_denied))
+            }
         })
 
     companion object {
