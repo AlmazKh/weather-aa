@@ -10,6 +10,8 @@ import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.HourlyWeather
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_hourly_weather.view.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 
 class HourlyWeatherAdapter :
     ListAdapter<HourlyWeather, HourlyWeatherAdapter.HourlyWeatherViewHolder>(
@@ -28,16 +30,24 @@ class HourlyWeatherAdapter :
     class HourlyWeatherViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        // TODO: set binded data
-        fun bind(w: HourlyWeather) {
-            itemView.tv_time.text = "18:00"
+        fun bind(weather: HourlyWeather) {
+            if (DateTime.now(DateTimeZone.forOffsetHours(3)).hourOfDay == DateTime(weather.timestampLocal).hourOfDay) {
+                // TODO: this condition always false because no data about current weather (need one more request to API)
+                itemView.tv_time.text = "Сейчас"
+            } else {
+                itemView.tv_time.text = "${DateTime(weather.timestampLocal).hourOfDay}:00"
+            }
             itemView.iv_weather_state.setImageDrawable(
                 containerView.resources.getDrawable(
                     R.drawable.mdi_weather_cloudy,
                     null
                 )
             )
-            itemView.tv_time_degrees.text = "+16"
+            if(weather.temp > 0) {
+                itemView.tv_time_degrees.text = "+${weather.temp.toInt()}°"
+            } else {
+                itemView.tv_time_degrees.text = "${weather.temp.toInt()}°"
+            }
         }
     }
 

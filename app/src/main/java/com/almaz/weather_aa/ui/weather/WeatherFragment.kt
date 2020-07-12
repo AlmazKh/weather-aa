@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
+import com.almaz.weather_aa.core.model.HourlyWeather
 import com.almaz.weather_aa.ui.base.BaseFragment
 import com.almaz.weather_aa.utils.GPSUtils
 import kotlinx.android.synthetic.main.fragment_weather.*
@@ -54,6 +55,7 @@ class WeatherFragment : BaseFragment() {
 //        val dw = container_hourly_weather.layoutParams as CoordinatorLayout.LayoutParams
 //        dw.behavior = HourlyWeatherBehavior()
         // TODO: fix with custom behavior
+
 //        rv_daily_weather.viewTreeObserver
 //            .addOnScrollChangedListener {
 //                if (rv_daily_weather != null) {
@@ -143,6 +145,7 @@ class WeatherFragment : BaseFragment() {
                 if (it.data != null) {
                     hourlyWeatherAdapter.submitList(it.data)
                     rv_daily_details.adapter = hourlyWeatherAdapter
+                    setUpExtraWeatherOptions(it.data)
                 }
                 if (it.error != null) {
                     showSnackbar(getString(R.string.snackbar_error_message))
@@ -182,5 +185,11 @@ class WeatherFragment : BaseFragment() {
     companion object {
         private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
         private const val PERMISSION_REQUEST_CODE = 324
+      
+    private fun setUpExtraWeatherOptions(data: List<HourlyWeather>) {
+        tv_wind.text = "${(data[0].windSpd * 3.6).toInt()} km/h, ${data[0].windCdir}"
+        tv_pressure.text = "${data[0].pres.toInt()} hPa"
+        tv_humidity.text = "${data[0].rh.toInt()} %"
+
     }
 }

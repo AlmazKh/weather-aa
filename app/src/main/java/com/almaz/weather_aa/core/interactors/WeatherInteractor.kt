@@ -15,6 +15,7 @@ import com.google.android.gms.location.LocationResult
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.joda.time.DateTime
 
 class WeatherInteractor(
     private val weatherRepository: WeatherRepository,
@@ -29,7 +30,9 @@ class WeatherInteractor(
     ): Single<List<HourlyWeather>> =
         weatherRepository.getHourlyWeather(lat, lon, apiKey)
             .map {
-                it.data.take(10)
+                it.data.filter { weather ->
+                    DateTime(weather.timestampLocal).dayOfMonth() == DateTime.now().dayOfMonth()
+                }
             }
             .subscribeOn(Schedulers.io())
 
