@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -187,8 +188,8 @@ class WeatherFragment : BaseFragment() {
     }
 
     private fun setUpExtraWeatherOptions(data: List<HourlyWeather>) {
-        tv_wind.text = "${(data[0].windSpd * 3.6).toInt()} km/h, ${data[0].windCdir}"
-        tv_pressure.text = "${data[0].pres.toInt()} hPa"
-        tv_humidity.text = "${data[0].rh.toInt()} %"
+//        tv_wind.text = "${(data[0].windSpd * 3.6).toInt()} km/h, ${data[0].windCdir}"
+//        tv_pressure.text = "${data[0].pres.toInt()} hPa"
+//        tv_humidity.text = "${data[0].rh.toInt()} %"
     }
 }

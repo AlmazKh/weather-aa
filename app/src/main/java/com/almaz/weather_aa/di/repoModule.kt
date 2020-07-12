@@ -9,6 +9,6 @@ import org.kodein.di.generic.singleton
 
 fun repoModule() = Kodein.Module("repoModule") {
     bind<WeatherRepository>() with singleton {
-        WeatherRepositoryImpl(weatherService = instance())
+        WeatherRepositoryImpl(weatherService = instance(), weatherDAO = instance())
     }
 }
