@@ -1,11 +1,18 @@
 package com.almaz.weather_aa.core.interactors
 
+import android.annotation.SuppressLint
+import android.location.Location
 import com.almaz.weather_aa.core.WeatherRepository
 import com.almaz.weather_aa.core.model.CurrentWeatherResponse
 import com.almaz.weather_aa.core.model.DailyWeather
 import com.almaz.weather_aa.core.model.DailyWeatherResponse
 import com.almaz.weather_aa.core.model.HourlyWeather
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 

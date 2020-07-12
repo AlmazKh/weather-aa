@@ -1,5 +1,8 @@
 package com.almaz.weather_aa.ui.weather
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -181,6 +184,7 @@ class WeatherFragment : BaseFragment() {
     companion object {
         private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
         private const val PERMISSION_REQUEST_CODE = 324
+    }
 
     private fun setUpExtraWeatherOptions(data: List<HourlyWeather>) {
         tv_wind.text = "${(data[0].windSpd * 3.6).toInt()} km/h, ${data[0].windCdir}"
