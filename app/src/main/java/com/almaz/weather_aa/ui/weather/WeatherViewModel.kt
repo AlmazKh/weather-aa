@@ -17,7 +17,7 @@ class WeatherViewModel(
     val hourlyWeatherLiveData = MutableLiveData<Response<List<HourlyWeather>>>()
     val dailyWeatherLiveData = MutableLiveData<Response<List<DailyWeather>>>()
 
-    fun getHourlyWeather(
+    private fun getHourlyWeather(
         lat: Double,
         lon: Double,
         apiKey: String
@@ -37,7 +37,7 @@ class WeatherViewModel(
         )
     }
 
-    fun getDailyWeather(
+    private fun getDailyWeather(
         lat: Double,
         lon: Double,
         apiKey: String
@@ -56,5 +56,21 @@ class WeatherViewModel(
                 it.printStackTrace()
             })
             .addTo(disposables)
+    }
+
+    fun getLocation(apiKey: String) {
+        weatherInteractor.getGeoPosition()
+            .doOnSubscribe {
+                showLoadingLiveData.value = true
+            }
+            .doAfterTerminate {
+                showLoadingLiveData.value = false
+            }
+            .subscribeBy(onSuccess = {
+                getHourlyWeather(it.latitude, it.longitude, apiKey)
+                getDailyWeather(it.latitude, it.longitude, apiKey)
+            }, onError = {
+                it.printStackTrace()
+            }).addTo(disposables)
     }
 }

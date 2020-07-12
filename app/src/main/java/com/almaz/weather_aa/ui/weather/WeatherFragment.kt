@@ -1,14 +1,10 @@
 package com.almaz.weather_aa.ui.weather
 
-import android.Manifest
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,11 +13,11 @@ import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.HourlyWeather
 import com.almaz.weather_aa.ui.base.BaseFragment
+import com.almaz.weather_aa.utils.GPSUtils
 //import com.almaz.weather_aa.utils.GpsUtils
 //import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_weather.*
 import org.kodein.di.generic.instance
-
 
 class WeatherFragment : BaseFragment() {
 
@@ -49,22 +45,27 @@ class WeatherFragment : BaseFragment() {
         }
         initAdapter()
 
+        checkLocationPermissions()
+
 //        val dw = container_hourly_weather.layoutParams as CoordinatorLayout.LayoutParams
 //        dw.behavior = HourlyWeatherBehavior()
         // TODO: fix with custom behavior
-        rv_daily_weather.viewTreeObserver
-            .addOnScrollChangedListener {
-                if (rv_daily_weather != null) {
-                    if (rv_daily_weather.getChildAt(0)
-                            .bottom <= rv_daily_weather.height + rv_daily_weather.scrollY
-                    ) {
-                        container_hourly_weather.visibility = View.VISIBLE
-                    } else {
-                        container_hourly_weather.visibility = View.GONE
-                    }
-                }
-            }
 
+//        rv_daily_weather.viewTreeObserver
+//            .addOnScrollChangedListener {
+//                if (rv_daily_weather != null) {
+//                    if (rv_daily_weather.getChildAt(0)
+//                            .bottom <= rv_daily_weather.height + rv_daily_weather.scrollY
+//                    ) {
+//                        container_hourly_weather.visibility = View.GONE
+//                    } else {
+//                        container_hourly_weather.visibility = View.VISIBLE
+//                    }
+//                }
+//            }
+
+        observeGps()
+        observeLoading()
         observeLoading()
         observeDailyWeather()
         observeHourlyWeatherLiveData()
@@ -86,6 +87,52 @@ class WeatherFragment : BaseFragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE && permissions[0] == LOCATION_PERMISSION
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            onLocationPermissionsGranted()
+        } else {
+            onLocationPermissionsDenied()
+        }
+    }
+
+    private fun checkLocationPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context?.let { context ->
+                if (ContextCompat.checkSelfPermission(context, LOCATION_PERMISSION) !=
+                    PackageManager.PERMISSION_GRANTED
+                ) {
+                    requestPermissions(
+                        arrayOf(LOCATION_PERMISSION),
+                        PERMISSION_REQUEST_CODE
+                    )
+                } else {
+                    onLocationPermissionsGranted()
+                }
+            }
+        } else {
+            onLocationPermissionsGranted()
+        }
+    }
+
+    private fun onLocationPermissionsGranted() {
+        GPSUtils(rootActivity).checkIsGpsOn(object : GPSUtils.OnGpsListener {
+            override fun gpsStatus(isGPSEnable: Boolean) {
+                if (isGPSEnable) rootActivity.mainViewModel.gpsState.postValue(true)
+            }
+        })
+    }
+
+    private fun onLocationPermissionsDenied() {
+        showSnackbar(getString(R.string.location_prompt_denied))
     }
 
     private fun observeHourlyWeatherLiveData() =
@@ -122,14 +169,22 @@ class WeatherFragment : BaseFragment() {
             }
         })
 
-    private fun setUpExtraWeatherOptions(data: List<HourlyWeather>) {
-        tv_wind.text = "${(data[0].windSpd * 3.6).toInt()} km/h, ${data[0].windCdir}"
-        tv_pressure.text = "${data[0].pres.toInt()} hPa"
-        tv_humidity.text = "${data[0].rh.toInt()} %"
-    }
+    private fun observeGps() =
+        rootActivity.mainViewModel.gpsState.observe(viewLifecycleOwner, Observer { gpsEnable ->
+            if (gpsEnable) viewModel.getLocation(BuildConfig.API_KEY)
+            else {
+                hideLoading()
+                showSnackbar(getString(R.string.location_prompt_denied))
+            }
+        })
 
     companion object {
         private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
         private const val PERMISSION_REQUEST_CODE = 324
+
+    private fun setUpExtraWeatherOptions(data: List<HourlyWeather>) {
+        tv_wind.text = "${(data[0].windSpd * 3.6).toInt()} km/h, ${data[0].windCdir}"
+        tv_pressure.text = "${data[0].pres.toInt()} hPa"
+        tv_humidity.text = "${data[0].rh.toInt()} %"
     }
 }

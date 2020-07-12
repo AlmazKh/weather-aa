@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">weather-aa</string>
     <string name="snackbar_error_message">Произошла ошибка</string>
+    <string name="location_prompt_denied">Не удалось загрузить данные</string>
 </resources>
