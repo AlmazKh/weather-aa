@@ -1,14 +1,11 @@
 package com.almaz.weather_aa.ui.weather
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.almaz.itis_booking.ui.base.BaseViewModel
 import com.almaz.weather_aa.core.interactors.WeatherInteractor
 import com.almaz.weather_aa.core.model.DailyWeather
-import com.almaz.weather_aa.core.model.DailyWeatherResponse
 import com.almaz.weather_aa.core.model.HourlyWeather
-import com.almaz.weather_aa.core.model.SavedLocation
+import com.almaz.weather_aa.ui.base.BaseViewModel
 import com.almaz.weather_aa.utils.Response
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo

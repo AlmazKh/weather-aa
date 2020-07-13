@@ -1,4 +1,4 @@
-package com.almaz.itis_booking.ui.base
+package com.almaz.weather_aa.ui.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.almaz.weather_aa.core.model
+package com.almaz.weather_aa.core.model.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

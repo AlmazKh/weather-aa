@@ -1,6 +1,5 @@
 package com.almaz.weather_aa.ui.locations
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

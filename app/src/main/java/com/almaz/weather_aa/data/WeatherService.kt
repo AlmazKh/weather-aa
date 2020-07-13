@@ -5,7 +5,6 @@ import com.almaz.weather_aa.core.model.DailyWeatherResponse
 import com.almaz.weather_aa.core.model.HourlyWeatherResponse
 import io.reactivex.Single
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WeatherService {

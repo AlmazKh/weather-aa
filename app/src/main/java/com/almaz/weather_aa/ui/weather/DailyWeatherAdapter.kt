@@ -12,8 +12,8 @@ import com.almaz.weather_aa.utils.DateTimeMapper
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_weather_daily.view.*
 
-class DailyWeatherAdapter(
-) : ListAdapter<DailyWeather, DailyWeatherAdapter.DailyWeatherHolder>(DailyWeatherDiffCallback()) {
+class DailyWeatherAdapter :
+    ListAdapter<DailyWeather, DailyWeatherAdapter.DailyWeatherHolder>(DailyWeatherDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): DailyWeatherHolder {
         val view =
@@ -31,7 +31,6 @@ class DailyWeatherAdapter(
 
         override fun areContentsTheSame(oldItem: DailyWeather, newItem: DailyWeather): Boolean =
             oldItem == newItem
-
     }
 
     class DailyWeatherHolder(override val containerView: View) :

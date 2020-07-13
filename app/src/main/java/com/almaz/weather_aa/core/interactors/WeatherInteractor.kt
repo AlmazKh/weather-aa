@@ -2,18 +2,16 @@ package com.almaz.weather_aa.core.interactors
 
 import android.annotation.SuppressLint
 import android.location.Location
-import android.util.Log
-import com.almaz.weather_aa.core.WeatherRepository
+import com.almaz.weather_aa.core.interfaces.WeatherRepository
 import com.almaz.weather_aa.core.model.*
+import com.almaz.weather_aa.core.model.db.SavedLocation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 
@@ -105,5 +103,6 @@ class WeatherInteractor(
         return weatherRepository.getSavedLocations()
     }
 
-    private fun createSavedLocation(lat: String, lon: String) = SavedLocation(0, lat, lon)
+    private fun createSavedLocation(lat: String, lon: String) =
+        SavedLocation(0, lat, lon)
 }

@@ -1,6 +1,6 @@
 package com.almaz.weather_aa.di
 
-import com.almaz.weather_aa.core.WeatherRepository
+import com.almaz.weather_aa.core.interfaces.WeatherRepository
 import com.almaz.weather_aa.core.interfaces.LocationRepository
 import com.almaz.weather_aa.data.LocationRepositoryImpl
 import com.almaz.weather_aa.data.WeatherRepositoryImpl

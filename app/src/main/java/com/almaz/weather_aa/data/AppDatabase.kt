@@ -4,9 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.almaz.weather_aa.App
 import com.almaz.weather_aa.core.WeatherDAO
-import com.almaz.weather_aa.core.model.SavedLocation
+import com.almaz.weather_aa.core.model.db.SavedLocation
 
 @Database(entities = [SavedLocation::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

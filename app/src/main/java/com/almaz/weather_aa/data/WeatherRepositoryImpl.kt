@@ -1,14 +1,12 @@
 package com.almaz.weather_aa.data
 
-import androidx.lifecycle.LiveData
 import com.almaz.weather_aa.core.WeatherDAO
-import com.almaz.weather_aa.core.WeatherRepository
+import com.almaz.weather_aa.core.interfaces.WeatherRepository
 import com.almaz.weather_aa.core.model.CurrentWeatherResponse
 import com.almaz.weather_aa.core.model.DailyWeatherResponse
 import com.almaz.weather_aa.core.model.HourlyWeatherResponse
-import com.almaz.weather_aa.core.model.SavedLocation
+import com.almaz.weather_aa.core.model.db.SavedLocation
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

@@ -48,14 +48,6 @@ class DateTimeMapper {
             return dayOfMonth.toString()
         }
 
-        fun getDegreesInCorrectForm(temp: Double): String {
-            return if (temp > 0) {
-                "+${temp.toInt()}°"
-            } else {
-                "${temp.toInt()}°"
-            }
-        }
-
         private fun getDateRus(year: Int, month: Int, day: Int, pattern: String): String {
             val calendar = Calendar.getInstance(locale)
             calendar.set(year, month, day)

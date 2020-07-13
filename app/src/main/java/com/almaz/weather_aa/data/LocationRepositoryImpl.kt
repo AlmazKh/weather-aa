@@ -8,6 +8,7 @@ import io.reactivex.Single
 
 class LocationRepositoryImpl(private val weatherService: WeatherService) : LocationRepository {
 
+    // TODO: get locations lat & lon from DB
     override fun getLocations(): Single<List<CurrentWeather>> {
         return  Observable.fromIterable(ITERABLE_ARRAY)
             .map {
@@ -19,19 +20,6 @@ class LocationRepositoryImpl(private val weatherService: WeatherService) : Locat
                 }
             }
             .toList()
-        /*return Single.create { emitter ->
-            val lst = mutableListOf<CurrentWeather>()
-
-            weatherService.getCurrentWeather(55.830433, 49.066082, BuildConfig.API_KEY)
-                .map {
-                    lst.add(it.data[0])
-                }
-            weatherService.getCurrentWeather(35.7721, -78.63861, BuildConfig.API_KEY)
-                .map {
-                    lst.add(it.data[0])
-                }
-            emitter.onSuccess(lst)
-        }*/
     }
 
     companion object {
