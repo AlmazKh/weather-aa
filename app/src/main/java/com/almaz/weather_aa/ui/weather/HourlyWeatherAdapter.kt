@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.HourlyWeather
+import com.almaz.weather_aa.utils.DateTimeMapper
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_hourly_weather.view.*
 import org.joda.time.DateTime
@@ -43,11 +44,7 @@ class HourlyWeatherAdapter :
                     null
                 )
             )
-            if(weather.temp > 0) {
-                itemView.tv_time_degrees.text = "+${weather.temp.toInt()}°"
-            } else {
-                itemView.tv_time_degrees.text = "${weather.temp.toInt()}°"
-            }
+            itemView.tv_time_degrees.text = DateTimeMapper.getDegreesInCorrectForm(weather.temp)
         }
     }
 

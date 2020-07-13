@@ -17,8 +17,7 @@ import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.HourlyWeather
 import com.almaz.weather_aa.ui.base.BaseFragment
 import com.almaz.weather_aa.utils.GPSUtils
-//import com.almaz.weather_aa.utils.GpsUtils
-//import com.google.android.gms.location.*
+import com.almaz.weather_aa.utils.StatusBarState
 import kotlinx.android.synthetic.main.fragment_weather.*
 import org.kodein.di.generic.instance
 
@@ -50,28 +49,22 @@ class WeatherFragment : BaseFragment() {
 
         checkLocationPermissions()
 
-//        val dw = container_hourly_weather.layoutParams as CoordinatorLayout.LayoutParams
-//        dw.behavior = HourlyWeatherBehavior()
-        // TODO: fix with custom behavior
-
-//        rv_daily_weather.viewTreeObserver
-//            .addOnScrollChangedListener {
-//                if (rv_daily_weather != null) {
-//                    if (rv_daily_weather.getChildAt(0)
-//                            .bottom <= rv_daily_weather.height + rv_daily_weather.scrollY
-//                    ) {
-//                        container_hourly_weather.visibility = View.GONE
-//                    } else {
-//                        container_hourly_weather.visibility = View.VISIBLE
-//                    }
-//                }
-//            }
+        btn_locations.setOnClickListener {
+            rootActivity.navController.navigate(
+                R.id.action_weather_fragment_to_locations_fragment
+            )
+        }
 
         observeGps()
         observeLoading()
         observeLoading()
         observeDailyWeather()
         observeHourlyWeatherLiveData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setUpStatusBar(StatusBarState.TRANSPARENT)
     }
 
     private fun initAdapter() {

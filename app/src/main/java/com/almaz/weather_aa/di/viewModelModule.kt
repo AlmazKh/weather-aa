@@ -1,6 +1,7 @@
 package com.almaz.weather_aa.di
 
 import androidx.lifecycle.ViewModelProvider
+import com.almaz.weather_aa.ui.locations.LocationsViewModel
 import com.almaz.weather_aa.ui.main.MainViewModel
 import com.almaz.weather_aa.ui.weather.WeatherViewModel
 import com.almaz.weather_aa.utils.ViewModelFactory
@@ -24,5 +25,8 @@ fun viewModelModule() = Kodein.Module(name = "viewModelModule") {
     }
     bindViewModel<WeatherViewModel>() with provider {
         WeatherViewModel(instance())
+    }
+    bindViewModel<LocationsViewModel>() with provider {
+        LocationsViewModel(instance())
     }
 }

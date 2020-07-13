@@ -11,5 +11,16 @@
         android:label="Weather fragment"
         tools:layout="@layout/fragment_weather">
 
+        <action
+            android:id="@+id/action_weather_fragment_to_locations_fragment"
+            app:destination="@id/locationsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/locationsFragment"
+        android:name="com.almaz.weather_aa.ui.locations.LocationsFragment"
+        android:label="Locations fragment"
+        tools:layout="@layout/fragment_locations">
+
     </fragment>
 </navigation>
