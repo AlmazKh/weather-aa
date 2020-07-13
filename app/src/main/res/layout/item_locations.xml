@@ -7,7 +7,7 @@
     app:cardElevation="0dp"
     app:cardUseCompatPadding="true"
     app:strokeColor="#1F000000"
-    app:strokeWidth="2dp">
+    app:strokeWidth="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

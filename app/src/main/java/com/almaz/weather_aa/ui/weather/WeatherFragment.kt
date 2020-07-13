@@ -12,6 +12,7 @@ import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.HourlyWeather
 import com.almaz.weather_aa.ui.base.BaseFragment
+import com.almaz.weather_aa.utils.StatusBarState
 import kotlinx.android.synthetic.main.fragment_weather.*
 import org.kodein.di.generic.instance
 
@@ -67,6 +68,11 @@ class WeatherFragment : BaseFragment() {
 
         observeDailyWeather()
         observeHourlyWeatherLiveData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setUpStatusBar(StatusBarState.TRANSPARENT)
     }
 
     private fun initAdapter() {

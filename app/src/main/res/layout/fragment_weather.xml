@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/spacing_normal_16"
-            android:paddingTop="@dimen/spacing_small_8"
+            android:paddingTop="@dimen/spacing_huge_32"
             android:paddingEnd="@dimen/spacing_small_8">
 
             <TextView

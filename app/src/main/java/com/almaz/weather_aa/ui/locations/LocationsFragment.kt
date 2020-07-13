@@ -1,5 +1,6 @@
 package com.almaz.weather_aa.ui.locations
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.ui.base.BaseFragment
+import com.almaz.weather_aa.utils.StatusBarState
 import kotlinx.android.synthetic.main.fragment_locations.*
-import kotlinx.android.synthetic.main.fragment_weather.*
 import org.kodein.di.generic.instance
+
 
 const val SPACE_BETWEEN_ITEMS = 8
 
@@ -45,6 +47,11 @@ class LocationsFragment : BaseFragment() {
 
         viewModel.getLocations()
         observeLocationsLiveData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setUpStatusBar(StatusBarState.LIGHT)
     }
 
     private fun initAdapter() {
