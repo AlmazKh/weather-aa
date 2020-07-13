@@ -8,6 +8,7 @@ import androidx.room.Query
 import com.almaz.weather_aa.core.model.SavedLocation
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface WeatherDAO {
@@ -16,5 +17,5 @@ interface WeatherDAO {
     fun insertLocation(savedLocation: SavedLocation) : Completable
 
     @Query("SELECT * FROM locations ORDER BY id DESC")
-    fun getSavedLocations() : LiveData<List<SavedLocation>>
+    fun getSavedLocations() : Single<List<SavedLocation>>
 }

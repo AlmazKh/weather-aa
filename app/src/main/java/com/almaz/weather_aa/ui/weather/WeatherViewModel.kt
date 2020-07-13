@@ -19,7 +19,7 @@ class WeatherViewModel(
 ) : BaseViewModel() {
     val hourlyWeatherLiveData = MutableLiveData<Response<List<HourlyWeather>>>()
     val dailyWeatherLiveData = MutableLiveData<Response<List<DailyWeather>>>()
-    val savedLocations = MutableLiveData<List<SavedLocation>>()
+    val shouldCheckGps = MutableLiveData<Boolean>()
 
     private fun getHourlyWeather(
         lat: Double,
@@ -62,6 +62,28 @@ class WeatherViewModel(
             .addTo(disposables)
     }
 
+    fun getWeather(apiKey: String) {
+        weatherInteractor.getWeather()
+            .doOnSubscribe {
+                showLoadingLiveData.value = true
+            }
+            .doAfterTerminate {
+                showLoadingLiveData.value = false
+            }
+            .subscribeBy(onSuccess = {
+                if (it.isNotEmpty()) {
+                    val loc = it[0]
+                    shouldCheckGps.postValue(false)
+                    getHourlyWeather(loc.lat.toDouble(), loc.lon.toDouble(), apiKey)
+                    getDailyWeather(loc.lat.toDouble(), loc.lon.toDouble(), apiKey)
+                } else {
+                    shouldCheckGps.postValue(true)
+                }
+            }, onError = {
+                it.printStackTrace()
+            }).addTo(disposables)
+    }
+
     fun getLocation(apiKey: String) {
         weatherInteractor.getGeoPosition()
             .doOnSubscribe {
@@ -73,8 +95,25 @@ class WeatherViewModel(
             .subscribeBy(onSuccess = {
                 getHourlyWeather(it.latitude, it.longitude, apiKey)
                 getDailyWeather(it.latitude, it.longitude, apiKey)
+                saveLocation(it.latitude.toString(), it.longitude.toString())
             }, onError = {
                 it.printStackTrace()
             }).addTo(disposables)
+    }
+
+    private fun saveLocation(lat: String, lon: String) {
+        weatherInteractor.saveLocation(lat, lon)
+            .doOnSubscribe {
+                Log.d("saveLocation", "doOnSubscribe")
+            }
+            .doAfterTerminate {
+                Log.d("saveLocation", "doAfterTerminate")
+            }
+            .subscribeBy({
+                Log.d("saveLocation", "" + it.localizedMessage)
+            }, {
+                Log.d("saveLocation", "subscribeBy")
+            }).addTo(disposables)
+
     }
 }

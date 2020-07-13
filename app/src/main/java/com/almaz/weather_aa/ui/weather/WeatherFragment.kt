@@ -68,8 +68,6 @@ class WeatherFragment : BaseFragment() {
 //                }
 //            }
 
-        observeGps()
-        observeLoading()
         observeLoading()
         observeDailyWeather()
         observeHourlyWeatherLiveData()
@@ -128,15 +126,20 @@ class WeatherFragment : BaseFragment() {
     }
 
     private fun onLocationPermissionsGranted() {
+        viewModel.getWeather(BuildConfig.API_KEY)
+        observeShouldCheckGps()
+    }
+
+    private fun onLocationPermissionsDenied() {
+        showSnackbar(getString(R.string.location_prompt_denied))
+    }
+
+    private fun checkIsGpsOn() {
         GPSUtils(rootActivity).checkIsGpsOn(object : GPSUtils.OnGpsListener {
             override fun gpsStatus(isGPSEnable: Boolean) {
                 if (isGPSEnable) rootActivity.mainViewModel.gpsState.postValue(true)
             }
         })
-    }
-
-    private fun onLocationPermissionsDenied() {
-        showSnackbar(getString(R.string.location_prompt_denied))
     }
 
     private fun observeHourlyWeatherLiveData() =
@@ -179,6 +182,14 @@ class WeatherFragment : BaseFragment() {
             else {
                 hideLoading()
                 showSnackbar(getString(R.string.location_prompt_denied))
+            }
+        })
+
+    private fun observeShouldCheckGps() =
+        viewModel.shouldCheckGps.observe(viewLifecycleOwner, Observer { shouldCheckGps ->
+            if (shouldCheckGps) {
+                checkIsGpsOn()
+                observeGps()
             }
         })
 

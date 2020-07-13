@@ -29,7 +29,7 @@ interface WeatherRepository {
         apiKey: String
     ): Single<HourlyWeatherResponse>
 
-    fun getSavedLocations(): LiveData<List<SavedLocation>>
+    fun getSavedLocations(): Single<List<SavedLocation>>
 
     fun saveLocation(savedLocation: SavedLocation) : Completable
 }

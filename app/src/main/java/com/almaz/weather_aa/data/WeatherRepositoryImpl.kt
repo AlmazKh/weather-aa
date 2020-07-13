@@ -48,8 +48,10 @@ class WeatherRepositoryImpl(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getSavedLocations(): LiveData<List<SavedLocation>> {
+    override fun getSavedLocations(): Single<List<SavedLocation>> {
         return weatherDAO.getSavedLocations()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun saveLocation(savedLocation: SavedLocation): Completable {
