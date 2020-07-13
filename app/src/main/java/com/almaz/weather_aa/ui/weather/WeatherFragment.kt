@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,8 +56,6 @@ class WeatherFragment : BaseFragment() {
             )
         }
 
-        observeGps()
-        observeLoading()
         observeLoading()
         observeDailyWeather()
         observeHourlyWeatherLiveData()
@@ -120,15 +119,20 @@ class WeatherFragment : BaseFragment() {
     }
 
     private fun onLocationPermissionsGranted() {
+        viewModel.getWeather(BuildConfig.API_KEY)
+        observeShouldCheckGps()
+    }
+
+    private fun onLocationPermissionsDenied() {
+        showSnackbar(getString(R.string.location_prompt_denied))
+    }
+
+    private fun checkIsGpsOn() {
         GPSUtils(rootActivity).checkIsGpsOn(object : GPSUtils.OnGpsListener {
             override fun gpsStatus(isGPSEnable: Boolean) {
                 if (isGPSEnable) rootActivity.mainViewModel.gpsState.postValue(true)
             }
         })
-    }
-
-    private fun onLocationPermissionsDenied() {
-        showSnackbar(getString(R.string.location_prompt_denied))
     }
 
     private fun observeHourlyWeatherLiveData() =
@@ -174,14 +178,22 @@ class WeatherFragment : BaseFragment() {
             }
         })
 
+    private fun observeShouldCheckGps() =
+        viewModel.shouldCheckGps.observe(viewLifecycleOwner, Observer { shouldCheckGps ->
+            if (shouldCheckGps) {
+                checkIsGpsOn()
+                observeGps()
+            }
+        })
+
     companion object {
         private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
         private const val PERMISSION_REQUEST_CODE = 324
     }
 
     private fun setUpExtraWeatherOptions(data: List<HourlyWeather>) {
-        tv_wind.text = "${(data[0].windSpd * 3.6).toInt()} km/h, ${data[0].windCdir}"
-        tv_pressure.text = "${data[0].pres.toInt()} hPa"
-        tv_humidity.text = "${data[0].rh.toInt()} %"
+//        tv_wind.text = "${(data[0].windSpd * 3.6).toInt()} km/h, ${data[0].windCdir}"
+//        tv_pressure.text = "${data[0].pres.toInt()} hPa"
+//        tv_humidity.text = "${data[0].rh.toInt()} %"
     }
 }

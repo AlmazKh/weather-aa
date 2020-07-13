@@ -14,6 +14,7 @@ class Kodein {
             import(netModule())
             import(interactorModule())
             import(repoModule())
+            import(databaseModule())
         }
         return di
     }
