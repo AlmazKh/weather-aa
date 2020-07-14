@@ -10,7 +10,7 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/def_weather"
+        android:background="@drawable/background_weather"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
