@@ -3,6 +3,7 @@ package com.almaz.weather_aa.ui.weather
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.almaz.weather_aa.core.interactors.WeatherInteractor
+import com.almaz.weather_aa.core.model.CurrentWeatherResponse
 import com.almaz.weather_aa.core.model.DailyWeather
 import com.almaz.weather_aa.core.model.HourlyWeather
 import com.almaz.weather_aa.ui.base.BaseViewModel
@@ -16,6 +17,7 @@ class WeatherViewModel(
 ) : BaseViewModel() {
     val hourlyWeatherLiveData = MutableLiveData<Response<List<HourlyWeather>>>()
     val dailyWeatherLiveData = MutableLiveData<Response<List<DailyWeather>>>()
+    val currentWeatherLiveData = MutableLiveData<Response<CurrentWeatherResponse>>()
     val shouldCheckGps = MutableLiveData<Boolean>()
 
     private fun getHourlyWeather(
@@ -59,6 +61,26 @@ class WeatherViewModel(
             .addTo(disposables)
     }
 
+    fun getCurrentWeather(
+        lat: Double,
+        lon: Double,
+        apiKey: String
+    ) {
+        disposables.addAll(
+            weatherInteractor.getCurrentWeather(lat, lon, apiKey)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate {
+                    showLoadingLiveData.value = false
+                }
+                .subscribe({
+                    currentWeatherLiveData.value = Response.success(it)
+                }, { error ->
+                    currentWeatherLiveData.value = Response.error(error)
+                    error.printStackTrace()
+                })
+        )
+    }
+
     fun getWeather(apiKey: String) {
         weatherInteractor.getWeather()
             .doOnSubscribe {
@@ -71,6 +93,7 @@ class WeatherViewModel(
                 if (it.isNotEmpty()) {
                     val loc = it[0]
                     shouldCheckGps.postValue(false)
+                    getCurrentWeather(loc.lat.toDouble(), loc.lon.toDouble(), apiKey)
                     getHourlyWeather(loc.lat.toDouble(), loc.lon.toDouble(), apiKey)
                     getDailyWeather(loc.lat.toDouble(), loc.lon.toDouble(), apiKey)
                 } else {

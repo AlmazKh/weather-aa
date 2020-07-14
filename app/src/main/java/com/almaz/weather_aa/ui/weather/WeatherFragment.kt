@@ -16,6 +16,7 @@ import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.HourlyWeather
 import com.almaz.weather_aa.ui.base.BaseFragment
+import com.almaz.weather_aa.utils.DegreesMapper
 import com.almaz.weather_aa.utils.GPSUtils
 import com.almaz.weather_aa.utils.StatusBarState
 import kotlinx.android.synthetic.main.fragment_weather.*
@@ -58,6 +59,7 @@ class WeatherFragment : BaseFragment() {
         }
 
         observeLoading()
+        observeCurrentWeatherLiveData()
         observeDailyWeather()
         observeHourlyWeatherLiveData()
     }
@@ -131,6 +133,20 @@ class WeatherFragment : BaseFragment() {
             }
         })
     }
+
+    private fun observeCurrentWeatherLiveData() =
+        viewModel.currentWeatherLiveData.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it.data != null) {
+                    tv_city_name.text = it.data.data[0].cityName
+                    tv_degrees.text =
+                        DegreesMapper.mapDegreesToFormWithMarkers(it.data.data[0].temp)
+                }
+                if (it.error != null) {
+                    showSnackbar(getString(R.string.snackbar_error_message))
+                }
+            }
+        })
 
     private fun observeHourlyWeatherLiveData() =
         viewModel.hourlyWeatherLiveData.observe(viewLifecycleOwner, Observer {

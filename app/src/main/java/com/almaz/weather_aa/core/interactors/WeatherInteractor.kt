@@ -20,7 +20,6 @@ class WeatherInteractor(
     private val fusedLocationClient: FusedLocationProviderClient
 ) {
 
-    // TODO: fix getting data. Return weather for every minute
     fun getHourlyWeather(
         lat: Double,
         lon: Double,

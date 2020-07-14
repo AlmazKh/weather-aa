@@ -40,11 +40,7 @@ class WeatherRepositoryImpl(
         lat: Double,
         lon: Double,
         apiKey: String
-    ): Single<HourlyWeatherResponse> {
-        return weatherService.getHourlyWeather(lat, lon, apiKey)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
+    ): Single<HourlyWeatherResponse> = weatherService.getHourlyWeather(lat, lon, apiKey)
 
     override fun getSavedLocations(): Single<List<SavedLocation>> {
         return weatherDAO.getSavedLocations()
