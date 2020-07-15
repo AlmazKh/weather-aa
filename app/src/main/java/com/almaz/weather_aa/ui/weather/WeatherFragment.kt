@@ -1,12 +1,15 @@
 package com.almaz.weather_aa.ui.weather
 
 import android.Manifest
+import android.animation.ValueAnimator
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +24,7 @@ import com.almaz.weather_aa.utils.GPSUtils
 import com.almaz.weather_aa.utils.StatusBarState
 import kotlinx.android.synthetic.main.fragment_weather.*
 import org.kodein.di.generic.instance
+
 
 class WeatherFragment : BaseFragment() {
 
@@ -67,6 +71,19 @@ class WeatherFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         setUpStatusBar(StatusBarState.TRANSPARENT)
+        setSunAnimating()
+    }
+
+    private fun setSunAnimating() {
+        val valueAnimator = ValueAnimator.ofInt(1, 360)
+        valueAnimator.interpolator = LinearInterpolator()
+        valueAnimator.duration = 10000
+        valueAnimator.repeatCount = ValueAnimator.INFINITE
+        valueAnimator.addUpdateListener { animation ->
+            Log.d("Anim", animation.animatedValue.toString() + "")
+            animated_sun.setValue(animation.animatedValue as Int)
+        }
+        valueAnimator.start()
     }
 
     private fun initAdapter() {
