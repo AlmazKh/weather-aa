@@ -6,16 +6,18 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.View
 
-class CircleView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
+
+class CircleView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     private var animValue = 0
-    private val strokeWidth = 70f
+    private val strokeWidth = 90f
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private lateinit var rectF: RectF
-    private lateinit var rectF2: RectF
-    private val size = 200f
+    private val sizeInDp = 160f
+    private val sizeInPx = convertDpToPixel(sizeInDp, context)
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -25,11 +27,28 @@ class CircleView(context: Context?, attrs: AttributeSet?) : View(context, attrs)
 
         setRectangle()
 
-        paint.color = Color.GREEN
+        paint.color = Color.YELLOW
 
-        canvas.drawArc(rectF, animValue.toFloat(), 10f, false, paint)
+        canvas.drawArc(rectF, 0  +animValue.toFloat(), 20f, false, paint)
+        canvas.drawArc(rectF, 45 + animValue.toFloat(), 20f, false, paint)
+        canvas.drawArc(rectF, 90 + animValue.toFloat(), 20f, false, paint)
+        canvas.drawArc(rectF, 135 + animValue.toFloat(), 20f, false, paint)
+        canvas.drawArc(rectF, 180 + animValue.toFloat(), 20f, false, paint)
+        canvas.drawArc(rectF, 225+ animValue.toFloat(), 20f, false, paint)
+        canvas.drawArc(rectF, 270+ animValue.toFloat(), 20f, false, paint)
+        canvas.drawArc(rectF, 315+ animValue.toFloat(), 20f, false, paint)
+//        canvas.drawArc(rectF, 320+ animValue.toFloat(), 20f, false, paint)
 
-//        drawCircle(canvas)
+//        canvas.drawArc(rectF, 0  +animValue.toFloat(), 20f, false, paint)
+//        canvas.drawArc(rectF, 51 + animValue.toFloat(), 20f, false, paint)
+//        canvas.drawArc(rectF, 102 + animValue.toFloat(), 20f, false, paint)
+//        canvas.drawArc(rectF, 153 + animValue.toFloat(), 20f, false, paint)
+//        canvas.drawArc(rectF, 204 + animValue.toFloat(), 20f, false, paint)
+//        canvas.drawArc(rectF, 255+ animValue.toFloat(), 20f, false, paint)
+//        canvas.drawArc(rectF, 306+ animValue.toFloat(), 20f, false, paint)
+//        canvas.drawArc(rectF, 357+ animValue.toFloat(), 20f, false, paint)
+
+        drawCircle(canvas)
     }
 
 
@@ -37,17 +56,23 @@ class CircleView(context: Context?, attrs: AttributeSet?) : View(context, attrs)
         paint.color = Color.YELLOW
         paint.style = Paint.Style.FILL
 
-        val radius = 50f
+        val radius = 80f
 
-        canvas.drawCircle(size / 2f, size / 2f, radius, paint)
+        canvas.drawCircle(sizeInPx / 2f, sizeInPx / 2f, radius, paint)
     }
 
     private fun setRectangle() {
-        rectF = RectF(width - 140f, height - 190f, width-100f, height - 10f)
+        rectF = RectF(strokeWidth, strokeWidth, width-strokeWidth, height - strokeWidth)
     }
 
     fun setValue(animatedValue: Int) {
         animValue = animatedValue
         invalidate()
+    }
+
+    fun convertDpToPixel(dp: Float, context: Context): Float {
+        val f = dp * (context.resources
+            .displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+        return f
     }
 }
