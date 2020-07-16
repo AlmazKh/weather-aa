@@ -1,6 +1,7 @@
 package com.almaz.weather_aa.ui.weather
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.pm.PackageManager
 import android.os.Build
@@ -19,6 +20,7 @@ import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.HourlyWeather
 import com.almaz.weather_aa.ui.base.BaseFragment
+import com.almaz.weather_aa.ui.weather.states.RainDropView
 import com.almaz.weather_aa.utils.DegreesMapper
 import com.almaz.weather_aa.utils.GPSUtils
 import com.almaz.weather_aa.utils.StatusBarState
@@ -72,6 +74,12 @@ class WeatherFragment : BaseFragment() {
         super.onStart()
         setUpStatusBar(StatusBarState.TRANSPARENT)
         setSunAnimating()
+        animateDrop(drop1)
+        animateDrop(drop2)
+        animateDrop(drop3)
+        animateDrop(drop4)
+        animateDrop(drop5)
+        animateDrop(drop6)
     }
 
     private fun setSunAnimating() {
@@ -84,6 +92,16 @@ class WeatherFragment : BaseFragment() {
             animated_sun.setValue(animation.animatedValue as Int)
         }
         valueAnimator.start()
+    }
+
+    private fun animateDrop(drop: RainDropView) {
+        ObjectAnimator.ofFloat(drop, "translationY", 300f).apply {
+            duration = 1000
+            interpolator = LinearInterpolator()
+            repeatMode = ValueAnimator.RESTART
+            repeatCount = ValueAnimator.INFINITE
+            start()
+        }
     }
 
     private fun initAdapter() {

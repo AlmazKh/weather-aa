@@ -71,6 +71,76 @@
                 android:textSize="@dimen/font_small_12"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_degrees" />
+
+            <com.almaz.weather_aa.ui.weather.states.RainDropView
+                android:id="@+id/drop1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/cloud"
+                app:layout_constraintStart_toStartOf="@+id/cloud"
+                app:layout_constraintTop_toTopOf="@+id/cloud"
+                app:layout_constraintVertical_bias="0.748" />
+
+            <com.almaz.weather_aa.ui.weather.states.RainDropView
+                android:id="@+id/drop2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="56dp"
+                android:layout_marginTop="@dimen/spacing_normal_16"
+                app:layout_constraintBottom_toBottomOf="@+id/cloud"
+                app:layout_constraintStart_toStartOf="@+id/cloud"
+                app:layout_constraintTop_toTopOf="@+id/cloud"
+                app:layout_constraintVertical_bias="0.635" />
+
+            <com.almaz.weather_aa.ui.weather.states.RainDropView
+                android:id="@+id/drop3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="92dp"
+                app:layout_constraintBottom_toBottomOf="@+id/cloud"
+                app:layout_constraintStart_toStartOf="@+id/cloud"
+                app:layout_constraintTop_toTopOf="@+id/cloud"
+                app:layout_constraintVertical_bias="0.742" />
+
+            <com.almaz.weather_aa.ui.weather.states.RainDropView
+                android:id="@+id/drop4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="148dp"
+                app:layout_constraintBottom_toBottomOf="@+id/cloud"
+                app:layout_constraintStart_toStartOf="@+id/cloud"
+                app:layout_constraintTop_toTopOf="@+id/cloud"
+                app:layout_constraintVertical_bias="0.742" />
+
+            <com.almaz.weather_aa.ui.weather.states.RainDropView
+                android:id="@+id/drop5"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="80dp"
+                app:layout_constraintBottom_toBottomOf="@+id/cloud"
+                app:layout_constraintStart_toStartOf="@+id/cloud"
+                app:layout_constraintTop_toTopOf="@+id/cloud"
+                app:layout_constraintVertical_bias="0.525" />
+
+            <com.almaz.weather_aa.ui.weather.states.RainDropView
+                android:id="@+id/drop6"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="136dp"
+                app:layout_constraintBottom_toBottomOf="@+id/cloud"
+                app:layout_constraintStart_toStartOf="@+id/cloud"
+                app:layout_constraintTop_toTopOf="@+id/cloud"
+                app:layout_constraintVertical_bias="0.605" />
+
+            <com.almaz.weather_aa.ui.weather.states.CloudView
+                android:id="@+id/cloud"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_marginEnd="@dimen/spacing_small_8"
+                app:layout_constraintBottom_toBottomOf="@id/tv_degrees_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_degrees" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <HorizontalScrollView
