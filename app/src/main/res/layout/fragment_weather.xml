@@ -125,8 +125,8 @@
 
             <com.almaz.weather_aa.ui.weather.states.CloudView
                 android:id="@+id/cloud"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
                 android:layout_marginEnd="@dimen/spacing_small_8"
                 app:layout_constraintBottom_toBottomOf="@id/tv_degrees_description"
                 app:layout_constraintEnd_toEndOf="parent"
