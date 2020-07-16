@@ -24,16 +24,14 @@ class CircleView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private lateinit var rectF: RectF
     private val sweepAngle = 10f
+    private val colorYellow = "#FFEB3B"
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = strokeWidthInPx
-        paint.color = Color.BLUE
-
+        paint.color = Color.parseColor(colorYellow)
         setRectangle()
-
-        paint.color = Color.parseColor("#FFEB3B")
 
         canvas.drawArc(rectF, 0 + animValue, sweepAngle, false, paint)
         canvas.drawArc(rectF, 45 + animValue, sweepAngle, false, paint)
@@ -48,7 +46,7 @@ class CircleView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun drawCircle(canvas: Canvas) {
-        paint.color = Color.parseColor("#FFEB3B")
+        paint.color = Color.parseColor(colorYellow)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 25f
 
