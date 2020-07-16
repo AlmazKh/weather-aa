@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.DailyWeather
 import com.almaz.weather_aa.utils.DateTimeMapper
+import com.almaz.weather_aa.utils.DegreesMapper.Companion.mapDegreesToFormWithMarkers
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_weather_daily.view.*
 
@@ -40,10 +41,8 @@ class DailyWeatherAdapter :
             containerView.tv_day_by_week.text = DateTimeMapper.mapToDayOfWeek(weatherData.datetime)
             containerView.tv_day_by_month.text =
                 DateTimeMapper.mapToDayOfMonth(weatherData.datetime)
-            containerView.tv_max_temp.text = weatherData.appMaxTemp.toString()
-            containerView.tv_min_temp.text = weatherData.appMinTemp.toString()
-
-            //TODO разные иконки
+            containerView.tv_max_temp.text = mapDegreesToFormWithMarkers(weatherData.appMaxTemp)
+            containerView.tv_min_temp.text = mapDegreesToFormWithMarkers(weatherData.appMinTemp)
             containerView.iv_weather_icon.setImageResource(R.drawable.ic_sunny)
         }
     }
