@@ -9,70 +9,68 @@ import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.view.View
 
-
 class CircleView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
-    private var animValue = 0
-    private val strokeWidth = 90f
+    private val strokeWidthInDp = 25f
+    private val strokeWidthInPx = convertDpToPixel(strokeWidthInDp)
+
+    private val sizeInDp = 160f
+    private val sizeInPx = convertDpToPixel(sizeInDp)
+
+    private val radiusInDp = 30f
+    private val radiusInPx = convertDpToPixel(radiusInDp)
+
+    private var animValue = 0f
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private lateinit var rectF: RectF
-    private val sizeInDp = 160f
-    private val sizeInPx = convertDpToPixel(sizeInDp, context)
+    private val sweepAngle = 10f
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = strokeWidth
+        paint.strokeWidth = strokeWidthInPx
         paint.color = Color.BLUE
 
         setRectangle()
 
-        paint.color = Color.YELLOW
+        paint.color = Color.parseColor("#FFEB3B")
 
-        canvas.drawArc(rectF, 0  +animValue.toFloat(), 20f, false, paint)
-        canvas.drawArc(rectF, 45 + animValue.toFloat(), 20f, false, paint)
-        canvas.drawArc(rectF, 90 + animValue.toFloat(), 20f, false, paint)
-        canvas.drawArc(rectF, 135 + animValue.toFloat(), 20f, false, paint)
-        canvas.drawArc(rectF, 180 + animValue.toFloat(), 20f, false, paint)
-        canvas.drawArc(rectF, 225+ animValue.toFloat(), 20f, false, paint)
-        canvas.drawArc(rectF, 270+ animValue.toFloat(), 20f, false, paint)
-        canvas.drawArc(rectF, 315+ animValue.toFloat(), 20f, false, paint)
-//        canvas.drawArc(rectF, 320+ animValue.toFloat(), 20f, false, paint)
-
-//        canvas.drawArc(rectF, 0  +animValue.toFloat(), 20f, false, paint)
-//        canvas.drawArc(rectF, 51 + animValue.toFloat(), 20f, false, paint)
-//        canvas.drawArc(rectF, 102 + animValue.toFloat(), 20f, false, paint)
-//        canvas.drawArc(rectF, 153 + animValue.toFloat(), 20f, false, paint)
-//        canvas.drawArc(rectF, 204 + animValue.toFloat(), 20f, false, paint)
-//        canvas.drawArc(rectF, 255+ animValue.toFloat(), 20f, false, paint)
-//        canvas.drawArc(rectF, 306+ animValue.toFloat(), 20f, false, paint)
-//        canvas.drawArc(rectF, 357+ animValue.toFloat(), 20f, false, paint)
+        canvas.drawArc(rectF, 0 + animValue, sweepAngle, false, paint)
+        canvas.drawArc(rectF, 45 + animValue, sweepAngle, false, paint)
+        canvas.drawArc(rectF, 90 + animValue, sweepAngle, false, paint)
+        canvas.drawArc(rectF, 135 + animValue, sweepAngle, false, paint)
+        canvas.drawArc(rectF, 180 + animValue, sweepAngle, false, paint)
+        canvas.drawArc(rectF, 225 + animValue, sweepAngle, false, paint)
+        canvas.drawArc(rectF, 270 + animValue, sweepAngle, false, paint)
+        canvas.drawArc(rectF, 315 + animValue, sweepAngle, false, paint)
 
         drawCircle(canvas)
     }
 
-
     private fun drawCircle(canvas: Canvas) {
-        paint.color = Color.YELLOW
-        paint.style = Paint.Style.FILL
+        paint.color = Color.parseColor("#FFEB3B")
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 25f
 
-        val radius = 80f
-
-        canvas.drawCircle(sizeInPx / 2f, sizeInPx / 2f, radius, paint)
+        canvas.drawCircle(sizeInPx / 2f, sizeInPx / 2f, radiusInPx, paint)
     }
 
     private fun setRectangle() {
-        rectF = RectF(strokeWidth, strokeWidth, width-strokeWidth, height - strokeWidth)
+        rectF = RectF(
+            strokeWidthInPx,
+            strokeWidthInPx,
+            width - strokeWidthInPx,
+            height - strokeWidthInPx
+        )
     }
 
     fun setValue(animatedValue: Int) {
-        animValue = animatedValue
+        animValue = animatedValue + 0f
         invalidate()
     }
 
-    fun convertDpToPixel(dp: Float, context: Context): Float {
-        val f = dp * (context.resources
+    private fun convertDpToPixel(dp: Float): Float {
+        return dp * (context.resources
             .displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
-        return f
     }
 }
