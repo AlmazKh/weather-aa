@@ -20,7 +20,7 @@ import com.almaz.weather_aa.BuildConfig
 import com.almaz.weather_aa.R
 import com.almaz.weather_aa.core.model.HourlyWeather
 import com.almaz.weather_aa.ui.base.BaseFragment
-import com.almaz.weather_aa.ui.weather.states.RainDropView
+import com.almaz.weather_aa.ui.view.RainDropView
 import com.almaz.weather_aa.utils.DegreesMapper
 import com.almaz.weather_aa.utils.GPSUtils
 import com.almaz.weather_aa.utils.StatusBarState

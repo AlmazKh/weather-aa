@@ -12,7 +12,7 @@ class LocationRepositoryImpl(private val weatherService: WeatherService) : Locat
     override fun getLocations(): Single<List<CurrentWeather>> {
         return  Observable.fromIterable(ITERABLE_ARRAY)
             .map {
-                weatherService.getCurrentWeather(55.830433, 49.066082, BuildConfig.API_KEY)
+                weatherService.getCurrentWeather(it.first, it.second, BuildConfig.API_KEY)
             }
             .flatMapSingle {
                 it.map { w ->
@@ -23,6 +23,6 @@ class LocationRepositoryImpl(private val weatherService: WeatherService) : Locat
     }
 
     companion object {
-        private val ITERABLE_ARRAY = listOf(0, 1)
+        private val ITERABLE_ARRAY = listOf(55.830433 to 49.066082, 35.830433 to 40.066082)
     }
 }

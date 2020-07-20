@@ -1,4 +1,4 @@
-package com.almaz.weather_aa.ui.weather.states
+package com.almaz.weather_aa.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
